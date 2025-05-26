@@ -8,7 +8,8 @@
 import Config
 
 config :spazzatura,
-  generators: [timestamp_type: :utc_datetime]
+  ecto_repos: [Spazzatura.Repo],
+  generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
 config :spazzatura, SpazzaturaWeb.Endpoint,
@@ -19,7 +20,7 @@ config :spazzatura, SpazzaturaWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Spazzatura.PubSub,
-  live_view: [signing_salt: "Ny87sF8H"]
+  live_view: [signing_salt: "zTJf8HW9"]
 
 # Configures the mailer
 #

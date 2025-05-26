@@ -9,6 +9,7 @@ defmodule Spazzatura.Application do
   def start(_type, _args) do
     children = [
       SpazzaturaWeb.Telemetry,
+      Spazzatura.Repo,
       {DNSCluster, query: Application.get_env(:spazzatura, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Spazzatura.PubSub},
       # Start the Finch HTTP client for sending emails

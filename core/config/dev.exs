@@ -1,5 +1,15 @@
 import Config
 
+# Configure your database
+config :spazzatura, Spazzatura.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "spazzatura_dev",
+  stacktrace: true,
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -13,7 +23,7 @@ config :spazzatura, SpazzaturaWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "deCqDzF1j0uE28VukgvMqslmKaq5QEVA4t7OxT1ESsljOu7VGYHyAiXSUweYcL66",
+  secret_key_base: "t3zZk1oP/XH4v3RAZbCbqrPFFtlHncEXAN8umLPIuT3q9BRLnvMkrLVVCRtXszt4",
   watchers: []
 
 # ## SSL Support

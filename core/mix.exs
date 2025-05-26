@@ -33,6 +33,9 @@ defmodule Spazzatura.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.7.21"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:ecto_sql, "~> 3.10"},
+      {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
@@ -53,7 +56,10 @@ defmodule Spazzatura.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "ecto.setup"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end

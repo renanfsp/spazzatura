@@ -7,7 +7,7 @@ defmodule SpazzaturaWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_spazzatura_key",
-    signing_salt: "bRgj9/r+",
+    signing_salt: "4JUB3/6A",
     same_site: "Lax"
   ]
 
@@ -29,6 +29,7 @@ defmodule SpazzaturaWeb.Endpoint do
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
     plug Phoenix.CodeReloader
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :spazzatura
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
