@@ -25,30 +25,30 @@
 /client/yarn-error.log*
 
 # The directory Mix will write compiled artifacts to.
-/core/_build/
+/api/_build/
 
 # If you run "mix test --cover", coverage assets end up here.
-/core/cover/
+/api/cover/
 
 # The directory Mix downloads your dependencies sources to.
-/core/deps/
+/api/deps/
 
 # Where 3rd-party dependencies like ExDoc output generated docs.
-/core/doc/
+/api/doc/
 
 # Ignore .fetch files in case you like to edit your project deps locally.
-/core/.fetch
+/api/.fetch
 
 # If the VM crashes, it generates a dump, let's ignore it too.
-/core/erl_crash.dump
+/api/erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
-/core/*.ez
+/api/*.ez
 
 # Temporary files, for example, from tests.
-/core/tmp/
+/api/tmp/
 
 # Ignore package tarball (built via "mix hex.build").
-/core/spazzatura-*.tar
+/api/spazzatura-*.tar
 
-/core/.elixir_ls/
+/api/.elixir_ls/

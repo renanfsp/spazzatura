@@ -9,7 +9,7 @@ import Config
 
 config :spazzatura,
   ecto_repos: [Spazzatura.Repo],
-  generators: [timestamp_type: :utc_datetime, binary_id: true]
+  generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
 config :spazzatura, SpazzaturaWeb.Endpoint,
@@ -20,16 +20,7 @@ config :spazzatura, SpazzaturaWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Spazzatura.PubSub,
-  live_view: [signing_salt: "zTJf8HW9"]
-
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :spazzatura, Spazzatura.Mailer, adapter: Swoosh.Adapters.Local
+  live_view: [signing_salt: "1Dv4YZXJ"]
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -41,8 +41,6 @@ defmodule SpazzaturaWeb do
         formats: [:html, :json],
         layouts: [html: SpazzaturaWeb.Layouts]
 
-      use Gettext, backend: SpazzaturaWeb.Gettext
-
       import Plug.Conn
 
       unquote(verified_routes())

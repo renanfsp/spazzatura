@@ -17,14 +17,8 @@ config :spazzatura, Spazzatura.Repo,
 # you can enable the server option below.
 config :spazzatura, SpazzaturaWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "xvxzwKqBmSW19Agu7fWdrZhHYmJhOZQR5AcJKDHa9b1fQJK+zoGrc2z9qQyfHZ4v",
+  secret_key_base: "Bq5wod5mIZGkfAtHe4P76D9/ZjALZbG7pKyhLj5eGYupWzopVHypIW6s94AhDeNH",
   server: false
-
-# In test we don't send emails
-config :spazzatura, Spazzatura.Mailer, adapter: Swoosh.Adapters.Test
-
-# Disable swoosh api client as it is only required for production adapters
-config :swoosh, :api_client, false
 
 # Print only warnings and errors during test
 config :logger, level: :warning

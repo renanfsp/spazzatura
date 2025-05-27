@@ -23,7 +23,7 @@ config :spazzatura, SpazzaturaWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "t3zZk1oP/XH4v3RAZbCbqrPFFtlHncEXAN8umLPIuT3q9BRLnvMkrLVVCRtXszt4",
+  secret_key_base: "YGfYbH6C8OgCZ6MfgL1GvhMXdls7mjkfLDJn6M6IeVGn3pf0mRsV+/ldCZ3MNoLI",
   watchers: []
 
 # ## SSL Support
@@ -61,6 +61,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false

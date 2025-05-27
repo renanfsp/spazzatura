@@ -7,7 +7,7 @@ defmodule SpazzaturaWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_spazzatura_key",
-    signing_salt: "4JUB3/6A",
+    signing_salt: "HLqX4kap",
     same_site: "Lax"
   ]
 

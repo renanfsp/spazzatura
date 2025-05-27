@@ -12,8 +12,6 @@ defmodule Spazzatura.Application do
       Spazzatura.Repo,
       {DNSCluster, query: Application.get_env(:spazzatura, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Spazzatura.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: Spazzatura.Finch},
       # Start a worker by calling: Spazzatura.Worker.start_link(arg)
       # {Spazzatura.Worker, arg},
       # Start to serve requests, typically the last entry
