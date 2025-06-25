@@ -1,41 +1,96 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuthLayout from '@/layouts/auth-layout';
+import { Roles } from '@/types';
+
+const documentMask = (type: 'cpf' | 'cnpj', value: string) => {
+    if (type === 'cpf') {
+        return value
+            .replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+    if (type === 'cnpj') {
+        return value
+            .replace(/\D/g, '')
+            .replace(/^(\d{2})(\d)/, '$1.$2')
+            .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+            .replace(/\.(\d{3})(\d)/, '.$1/$2')
+            .replace(/(\d{4})(\d)/, '$1-$2');
+    }
+};
 
 type RegisterForm = {
     name: string;
     email: string;
+    document: string;
+    role: Roles;
     password: string;
     password_confirmation: string;
 };
 
 export default function Register() {
+    const [cpf, setCPF] = useState('');
+    const [cnpj, setCNPJ] = useState('');
+
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         email: '',
+        document: '',
+        role: 'collector',
         password: '',
         password_confirmation: '',
     });
 
-    const submit: FormEventHandler = (e) => {
+    const handleRoleChange = (role: Roles) => {
+        setData('role', role);
+        setCPF('');
+        setCNPJ('');
+        setData('document', '');
+    };
+
+    const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
     };
 
+    useEffect(() => {
+        if (data.role === 'collector') {
+            setData('document', cpf);
+        } else {
+            setData('document', cnpj);
+        }
+    }, [data.role, cpf, cnpj, setData]);
+
     return (
         <AuthLayout title="Create an account" description="Enter your details below to create your account">
             <Head title="Register" />
-            <form className="flex flex-col gap-6" onSubmit={submit}>
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                 <div className="grid gap-6">
+                    <div className="grid gap-2">
+                        <Select onValueChange={handleRoleChange} defaultValue={data.role}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select a verified email to display" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="collector">Coletor</SelectItem>
+                                <SelectItem value="merchant">Comercio</SelectItem>
+                                <SelectItem value="cooperative">Cooperativa</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
                     <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
                         <Input
@@ -69,13 +124,51 @@ export default function Register() {
                         <InputError message={errors.email} />
                     </div>
 
+                    {data.role === 'collector' ? (
+                        <div className="grid gap-2">
+                            <Label htmlFor="cpf">CPF</Label>
+                            <Input
+                                id="cpf"
+                                type="cpf"
+                                required
+                                tabIndex={3}
+                                autoComplete="cpf"
+                                maxLength={14}
+                                inputMode="numeric"
+                                value={documentMask('cpf', cpf)}
+                                onChange={(e) => setCPF(e.target.value)}
+                                disabled={processing}
+                                placeholder="123.456.789-09"
+                            />
+                            <InputError message={errors.document} />
+                        </div>
+                    ) : (
+                        <div className="grid gap-2">
+                            <Label htmlFor="cnpj">CNPJ</Label>
+                            <Input
+                                id="cnpj"
+                                type="cnpj"
+                                required
+                                tabIndex={3}
+                                maxLength={18}
+                                inputMode="numeric"
+                                autoComplete="cnpj"
+                                value={documentMask('cnpj', cnpj)}
+                                onChange={(e) => setCNPJ(e.target.value)}
+                                disabled={processing}
+                                placeholder="12.345.678/1234-12"
+                            />
+                            <InputError message={errors.document} />
+                        </div>
+                    )}
+
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
                         <Input
                             id="password"
                             type="password"
                             required
-                            tabIndex={3}
+                            tabIndex={4}
                             autoComplete="new-password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
@@ -91,7 +184,7 @@ export default function Register() {
                             id="password_confirmation"
                             type="password"
                             required
-                            tabIndex={4}
+                            tabIndex={5}
                             autoComplete="new-password"
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}

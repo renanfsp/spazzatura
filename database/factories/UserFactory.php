@@ -23,9 +23,23 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        if(mt_rand(1, 10) > 6) {
+            return [
+                'name' => fake()->firstName(),
+                'email' => fake()->unique()->safeEmail(),
+                'document' => fake()->unique()->numerify('##.###.###/####-##'),
+                'role' => fake()->randomElement(['merchant', 'cooperative']),
+                'email_verified_at' => now(),
+                'password' => static::$password ??= Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ];
+        }
+
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName(),
             'email' => fake()->unique()->safeEmail(),
+            'document' => fake()->unique()->numerify('###.###.###-##'),
+            'role' => 'collector',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
