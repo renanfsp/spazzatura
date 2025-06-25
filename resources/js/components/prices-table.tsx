@@ -19,19 +19,19 @@ const moneyMask = (a: number) =>
         currency: 'BRL',
     }).format(a);
 
-const moneyUnmask = (a: string) =>
-    parseFloat(
-        a
-            .replace(/[^\d,.-]/g, '')
-            .replace(/\./g, '')
-            .replace(',', '.'),
-    );
+// const moneyUnmask = (a: string) =>
+//     parseFloat(
+//         a
+//             .replace(/[^\d,.-]/g, '')
+//             .replace(/\./g, '')
+//             .replace(',', '.'),
+//     );
 
 export default function PricesTable() {
     const [data, setData] = useState<RawPrice[]>([]);
     const [sortKey, setSortKey] = useState<SortKey>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-    const [openEditDialog, setOpenEditDialog] = useState(false);
+    // const [openEditDialog, setOpenEditDialog] = useState(false);
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/v1/prices')
@@ -40,11 +40,11 @@ export default function PricesTable() {
             .catch((error) => console.error(error));
     }, []);
 
-    const handleApi = (action: 'delete') => {
-        if (action === 'delete') {
-            return console.log('deletar');
-        }
-    };
+    // const handleApi = (action: 'delete') => {
+    //     if (action === 'delete') {
+    //         return console.log('deletar');
+    //     }
+    // };
 
     const toggleSort = (key: SortKey) => {
         if (sortKey === key) {
