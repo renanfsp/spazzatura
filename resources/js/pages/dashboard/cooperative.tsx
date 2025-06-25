@@ -1,4 +1,4 @@
-import PricesTable from '@/components/prices-table';
+import PricesTable from '@/components/prices-table-crud';
 import UsersTable from '@/components/users-table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
