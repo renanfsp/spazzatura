@@ -36,8 +36,8 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     };
 
     return (
-        <AuthLayout title="Reset password" description="Please enter your new password below">
-            <Head title="Reset password" />
+        <AuthLayout title="Trocar senha" description="Por favor, insira sua nova senha abaixo.">
+            <Head title="Trocar senha" />
 
             <form onSubmit={submit}>
                 <div className="grid gap-6">
@@ -89,7 +89,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
 
                     <Button type="submit" className="mt-4 w-full" disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Reset password
+                        Resetar senha
                     </Button>
                 </div>
             </form>

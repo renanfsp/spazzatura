@@ -1,5 +1,8 @@
-'use client';
-
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Roles, UserData } from '@/types';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -12,22 +15,8 @@ import {
     useReactTable,
     VisibilityState,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
-import * as React from 'react';
-
-import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Roles, UserData } from '@/types';
+import { ArrowUpDown, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export const columns: ColumnDef<UserData>[] = [
     {
@@ -52,29 +41,6 @@ export const columns: ColumnDef<UserData>[] = [
         header: 'Documento',
         cell: ({ row }) => <div className="capitalize">{row.getValue('document')}</div>,
     },
-    {
-        id: 'actions',
-        enableHiding: false,
-        cell: () => {
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
-    },
 ];
 
 interface UsersTableProps {
@@ -82,14 +48,14 @@ interface UsersTableProps {
 }
 
 export default function UsersTable({ role }: UsersTableProps) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-    const [rowSelection, setRowSelection] = React.useState({});
-    const [data, setData] = React.useState<UserData[]>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = useState({});
+    const [data, setData] = useState<UserData[]>([]);
 
     if (role === 'collector') {
-        React.useEffect(() => {
+        useEffect(() => {
             fetch('http://127.0.0.1:8000/api/v1/users')
                 .then((response) => response.json())
                 .then((data: UserData[]) => setData(data))
@@ -97,7 +63,7 @@ export default function UsersTable({ role }: UsersTableProps) {
         }, []);
     }
     if (role === 'merchant') {
-        React.useEffect(() => {
+        useEffect(() => {
             fetch('http://127.0.0.1:8000/api/v1/users')
                 .then((response) => response.json())
                 .then((data: UserData[]) => setData(data))
@@ -141,7 +107,7 @@ export default function UsersTable({ role }: UsersTableProps) {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="ml-auto">
-                                Columns <ChevronDown />
+                                Colunas <ChevronDown />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
@@ -149,6 +115,8 @@ export default function UsersTable({ role }: UsersTableProps) {
                                 .getAllColumns()
                                 .filter((column) => column.getCanHide())
                                 .map((column) => {
+                                    console.log(column);
+
                                     return (
                                         <DropdownMenuCheckboxItem
                                             key={column.id}
@@ -198,9 +166,6 @@ export default function UsersTable({ role }: UsersTableProps) {
                     </Table>
                 </section>
                 <section className="flex items-center justify-end space-x-2 py-4">
-                    <section className="flex-1 text-sm text-muted-foreground">
-                        {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
-                    </section>
                     <section className="space-x-2">
                         <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                             Anterior
