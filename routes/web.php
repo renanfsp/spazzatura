@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Api\PricesController;
 use App\Http\Controllers\DashboardController;
@@ -9,6 +10,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('/api/v1')->group(function () {
     Route::resource('prices', PricesController::class)->only([
+        'index'
+    ]);
+
+    Route::resource('users', UsersController::class)->only([
         'index'
     ]);
 });

@@ -63,3 +63,10 @@ export interface Price {
     value: string;
     point: number;
 }
+
+export interface UserData {
+    id: number;
+    name: string;
+    email: string;
+    document: string;
+}
