@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 
-class UserController extends Controller
+class DashboardController extends Controller
 {
-    public function dashboard()
+    public function index()
     {
         return match(auth()->user()->role) {
             'collector' => Inertia::render('dashboard/collector'),
