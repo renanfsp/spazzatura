@@ -54,24 +54,30 @@ export default function UsersTable({ role }: UsersTableProps) {
     const [rowSelection, setRowSelection] = useState({});
     const [data, setData] = useState<UserData[]>([]);
 
-    if (role === 'collector') {
-        useEffect(() => {
-            fetch('http://127.0.0.1:8000/api/v1/users')
-                .then((response) => response.json())
+    useEffect(() => {
+        if (role === 'collector') {
+            fetch('http://127.0.0.1:8000/api/v1/users?role=collector')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then((data: UserData[]) => setData(data))
-                .catch((error) => console.error(error));
-        }, []);
-    }
-    if (role === 'merchant') {
-        useEffect(() => {
-            fetch('http://127.0.0.1:8000/api/v1/users')
-                .then((response) => response.json())
+                .catch((error) => console.error('Fetch error:', error));
+        }
+        if (role === 'merchant') {
+            fetch('http://127.0.0.1:8000/api/v1/users?role=merchant')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then((data: UserData[]) => setData(data))
-                .catch((error) => console.error(error));
-        }, []);
-    }
-
-    console.log(data);
+                .catch((error) => console.error('Fetch error:', error));
+        }
+    }, []);
 
     const table = useReactTable({
         data,
@@ -115,8 +121,6 @@ export default function UsersTable({ role }: UsersTableProps) {
                                 .getAllColumns()
                                 .filter((column) => column.getCanHide())
                                 .map((column) => {
-                                    console.log(column);
-
                                     return (
                                         <DropdownMenuCheckboxItem
                                             key={column.id}

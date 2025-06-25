@@ -64,9 +64,9 @@ export interface Price {
     point: number;
 }
 
-export interface UserData {
+interface UserData {
     id: number;
     name: string;
     email: string;
-    document: string;
+    role: string;
 }
