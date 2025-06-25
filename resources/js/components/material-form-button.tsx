@@ -17,24 +17,24 @@ export default function MaterialFormButton() {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
-                            <DialogDescription>Make changes to your profile here. Click save when you&apos;re done.</DialogDescription>
+                            <DialogTitle>Adicionar material</DialogTitle>
+                            <DialogDescription>Armazene aqui as informações de suas coletas</DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4">
                             <div className="grid gap-3">
-                                <Label htmlFor="name-1">Name</Label>
-                                <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+                                <Label htmlFor="name-1">Material</Label>
+                                <Input id="name-1" name="name" />
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="username-1">Username</Label>
-                                <Input id="username-1" name="username" defaultValue="@peduarte" />
+                                <Label htmlFor="name-1">Peso</Label>
+                                <Input id="name-1" name="name" />
                             </div>
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="outline">Cancel</Button>
+                                <Button variant="outline">Cancelar</Button>
                             </DialogClose>
-                            <Button type="submit">Save changes</Button>
+                            <Button type="submit">Adicionar</Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>

@@ -57,7 +57,7 @@ export function MaterialsTable() {
                         onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
                         className="max-w-sm"
                     />
-                    <span className="self-end">1054 Pontos</span>
+                    <span className="self-end">0 Pontos</span>
                 </div>
                 <div className="rounded-md border">
                     <Table>
