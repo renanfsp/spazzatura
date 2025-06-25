@@ -77,7 +77,7 @@ export default function UsersTable({ role }: UsersTableProps) {
                 .then((data: UserData[]) => setData(data))
                 .catch((error) => console.error('Fetch error:', error));
         }
-    }, []);
+    }, [role]);
 
     const table = useReactTable({
         data,

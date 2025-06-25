@@ -31,7 +31,6 @@ export default function PricesTable() {
     const [data, setData] = useState<RawPrice[]>([]);
     const [sortKey, setSortKey] = useState<SortKey>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-    // const [openEditDialog, setOpenEditDialog] = useState(false);
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/v1/prices')
