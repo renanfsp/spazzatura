@@ -13,6 +13,10 @@ import { RawPrice, SortDirection, SortKey } from '@/types';
 import { ArrowUpDown, MoreHorizontal, Plus } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
 const moneyMask = (a: number) =>
     Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -31,6 +35,7 @@ export default function PricesTable() {
     const [data, setData] = useState<RawPrice[]>([]);
     const [sortKey, setSortKey] = useState<SortKey>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+    const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/v1/prices')
@@ -38,12 +43,6 @@ export default function PricesTable() {
             .then((data: RawPrice[]) => setData(data))
             .catch((error) => console.error(error));
     }, []);
-
-    // const handleApi = (action: 'delete') => {
-    //     if (action === 'delete') {
-    //         return console.log('deletar');
-    //     }
-    // };
 
     const toggleSort = (key: SortKey) => {
         if (sortKey === key) {
@@ -71,6 +70,37 @@ export default function PricesTable() {
 
     return (
         <>
+            <Dialog open={openCreateDialog} onOpenChange={setOpenCreateDialog}>
+                <form>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Adicionar material</DialogTitle>
+                            <DialogDescription>Cotar o preço de um novo material.</DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4">
+                            <div className="grid gap-3">
+                                <Label htmlFor="name-1">Material</Label>
+                                <Input id="name-1" name="name" />
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="name-1">Preço</Label>
+                                <Input id="name-1" name="name" />
+                            </div>
+                            <div className="grid gap-3">
+                                <Label htmlFor="name-1">Pontos</Label>
+                                <Input id="name-1" name="name" />
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancelar</Button>
+                            </DialogClose>
+                            <Button type="submit">Adicionar</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </form>
+            </Dialog>
+
             <section className="flex h-full w-full flex-col items-center justify-center">
                 <section className="flex flex-col">
                     <span className="mb-2 self-center text-xl font-bold">Cotações</span>
@@ -123,7 +153,7 @@ export default function PricesTable() {
                         </Table>
                     </ScrollArea>
 
-                    <Button className="mt-2 self-end">
+                    <Button className="mt-2 self-end" onClick={() => setOpenCreateDialog(!openCreateDialog)}>
                         <Plus />
                     </Button>
                 </section>
