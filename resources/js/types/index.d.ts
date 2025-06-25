@@ -45,3 +45,21 @@ export interface User {
 }
 
 export type Roles = 'merchant' | 'cooperative' | 'collector';
+
+export type SortKey = 'value' | 'point' | null;
+
+export type SortDirection = 'asc' | 'desc';
+
+export interface RawPrice {
+    uuid: string;
+    material: string;
+    value: number;
+    point: number;
+}
+
+export interface Price {
+    uuid: string;
+    material: string;
+    value: string;
+    point: number;
+}
