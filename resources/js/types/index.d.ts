@@ -57,7 +57,12 @@ export interface Price {
     point: number;
 }
 
-interface UserData {
+export interface Collect {
+    material: string;
+    
+}
+
+export interface User {
     id: number;
     name: string;
     email: string;

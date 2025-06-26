@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Roles, UserData } from '@/types';
+import { Roles, User } from '@/types';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -18,7 +18,7 @@ import {
 import { ArrowUpDown, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export const columns: ColumnDef<UserData>[] = [
+export const columns: ColumnDef<User>[] = [
     {
         accessorKey: 'name',
         header: 'Nome',
@@ -52,7 +52,7 @@ export default function UsersTable({ role }: UsersTableProps) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = useState({});
-    const [data, setData] = useState<UserData[]>([]);
+    const [data, setData] = useState<User[]>([]);
 
     useEffect(() => {
         if (role === 'collector') {
@@ -63,7 +63,7 @@ export default function UsersTable({ role }: UsersTableProps) {
                     }
                     return response.json();
                 })
-                .then((data: UserData[]) => setData(data))
+                .then((data: User[]) => setData(data))
                 .catch((error) => console.error('Fetch error:', error));
         }
         if (role === 'merchant') {
@@ -74,7 +74,7 @@ export default function UsersTable({ role }: UsersTableProps) {
                     }
                     return response.json();
                 })
-                .then((data: UserData[]) => setData(data))
+                .then((data: User[]) => setData(data))
                 .catch((error) => console.error('Fetch error:', error));
         }
     }, [role]);

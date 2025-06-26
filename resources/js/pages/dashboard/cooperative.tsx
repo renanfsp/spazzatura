@@ -1,4 +1,4 @@
-import PricesTableForm from '@/components/prices-table-dialog';
+import PricesTableDialog from '@/components/prices-table-dialog';
 import UsersTable from '@/components/users-table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -24,7 +24,7 @@ export default function Cooperative() {
                         <UsersTable role="merchant" />
                     </section>
                     <section className="h-full overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PricesTableForm />
+                        <PricesTableDialog />
                     </section>
                 </section>
             </section>

@@ -1,3 +1,4 @@
+import { MaterialsTableDialog } from '@/components/materials-table-dialog';
 import PricesTable from '@/components/prices-table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -16,7 +17,9 @@ export default function Collector() {
             <Head title="Dashboard Coletor" />
             <section className="flex flex-1 flex-col">
                 <section className="grid h-full auto-rows-auto gap-4 md:m-8 lg:grid-cols-2">
-                    <section className="h-full overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"></section>
+                    <section className="h-full overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                        <MaterialsTableDialog />
+                    </section>
                     <section className="h-full overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                         <PricesTable />
                     </section>
