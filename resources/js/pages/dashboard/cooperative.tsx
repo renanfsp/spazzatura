@@ -1,4 +1,5 @@
-import PricesTable from '@/components/prices-table-crud';
+import PricesTable from '@/components/prices-table';
+import PricesTableForm from '@/components/prices-table-crud';
 import UsersTable from '@/components/users-table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -21,10 +22,10 @@ export default function Cooperative() {
                         <UsersTable role="collector" />
                     </section>
                     <section className="h-full overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <UsersTable role="merchant" />
+                        <PricesTable />
                     </section>
                     <section className="h-full overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PricesTable />
+                        <PricesTableForm />
                     </section>
                 </section>
             </section>

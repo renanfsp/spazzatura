@@ -25,7 +25,7 @@ export default function PricesTable() {
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/v1/prices')
+        fetch('http://127.0.0.1:8000/prices')
             .then((response) => response.json())
             .then((data: Price[]) => setData(data))
             .catch((error) => console.error(error));

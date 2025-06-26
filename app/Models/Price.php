@@ -11,9 +11,6 @@ use Illuminate\Notifications\Notifiable;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -25,11 +22,4 @@ use Illuminate\Notifications\Notifiable;
         'value',
         'point',
     ];
-
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            $model->uuid = \Illuminate\Support\Str::uuid();
-        });
-    }
 }

@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Price;
-use Cache;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Str;
 
 class PricesController extends Controller
 {
@@ -15,11 +14,13 @@ class PricesController extends Controller
      */
     public function index()
     {
-        $cache = Cache::rememberForever('all_prices', function () {
-            return Price::all();
-        });
+        // Cache::flush();
 
-        return response()->json($cache)->setStatusCode(200);
+        // $cache = Cache::rememberForever('all_prices', function () {
+        //     return Price::all();
+        // });
+
+        return response()->json(Price::all())->setStatusCode(200);
     }
 
     /**
@@ -33,9 +34,13 @@ class PricesController extends Controller
             'point' => 'required|numeric|min:0|max:500',
         ]);
 
-        $price = Price::create($request->all());
+        try {
+            $price = Price::create($request->all([
+                'uuid' => Str::uuid()
+            ]));
+        } catch (\Exception $e) {
 
-        dd(var_dump($price));
+        }
     }
 
     /**
