@@ -26,22 +26,24 @@ class PricesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function store(Request $request, Price $prices)
+    public function store(Request $request)
     {
-        $request->validate([
-            'material' => 'required|string|unique:prices|min:1|max:255',
-            'price' => 'required|numeric|min:0|max:500',
-            'point' => 'required|numeric|min:0|max:500',
+        $request->merge([
+            'uuid' => Str::uuid()->toString()
         ]);
 
-        try {
-            $price = Price::create($request->all([
-                'uuid' => Str::uuid()
-            ]));
-        } catch (\Exception $e) {
+        $validated = $request->validate([
+            'uuid' => 'required|uuid|unique:prices',
+            'material' => 'required|string|unique:prices|min:1|max:255',
+            'value' => 'required|numeric|min:0',
+            'point' => 'required|numeric|min:0',
+        ]);
 
-        }
+        Price::create($validated);
+
+        return redirect()->route(route: 'dashboard')->with('success');
     }
+
 
     /**
      * Remove the specified resource from storage.

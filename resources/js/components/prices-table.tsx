@@ -67,7 +67,7 @@ export default function PricesTable() {
                                 <TableHead>Material</TableHead>
                                 <TableHead>
                                     <Button variant="ghost" onClick={() => toggleSort('value')}>
-                                        <span>Preço</span>
+                                        <span>Preço (kg)</span>
                                         <ArrowUpDown className="ml-2 h-4 w-4" />
                                     </Button>
                                 </TableHead>
