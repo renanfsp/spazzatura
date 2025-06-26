@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('/api/v1')->group(function () {
-    Route::resource('prices', PricesController::class)->only([
-        'index'
-    ]);
-
     Route::resource('users', UsersController::class)->only([
         'index'
     ]);
@@ -20,6 +16,9 @@ Route::prefix('/api/v1')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/prices', [PricesController::class, 'index'])->name('prices.index');
+    Route::post('/prices', [PricesController::class, 'store'])->name('prices.store');
 });
 
 require __DIR__.'/settings.php';

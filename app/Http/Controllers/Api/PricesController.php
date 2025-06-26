@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Price;
+use Cache;
 use Illuminate\Http\Request;
+use Log;
 
 class PricesController extends Controller
 {
@@ -13,18 +15,27 @@ class PricesController extends Controller
      */
     public function index()
     {
-        // $cache = Cache::rememberForever('all_prices', function () {
-        //     return Price::all();
-        // });
-        return response()->json(Price::all())->setStatusCode(200);
+        $cache = Cache::rememberForever('all_prices', function () {
+            return Price::all();
+        });
+
+        return response()->json($cache)->setStatusCode(200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Price $prices)
+    public function store(Request $request, Price $prices)
     {
-        //
+        $request->validate([
+            'material' => 'required|string|unique:prices|min:1|max:255',
+            'price' => 'required|numeric|min:0|max:500',
+            'point' => 'required|numeric|min:0|max:500',
+        ]);
+
+        $price = Price::create($request->all());
+
+        dd(var_dump($price));
     }
 
     /**

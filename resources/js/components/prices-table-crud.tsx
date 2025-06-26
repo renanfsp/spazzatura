@@ -9,13 +9,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { RawPrice, SortDirection, SortKey } from '@/types';
+import { Price, SortDirection, SortKey } from '@/types';
 import { ArrowUpDown, MoreHorizontal, Plus } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useMemo, useState } from 'react';
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { router } from '@inertiajs/react';
 
 const moneyMask = (a: number) =>
     Intl.NumberFormat('pt-BR', {
@@ -23,26 +24,42 @@ const moneyMask = (a: number) =>
         currency: 'BRL',
     }).format(a);
 
-// const moneyUnmask = (a: string) =>
-//     parseFloat(
-//         a
-//             .replace(/[^\d,.-]/g, '')
-//             .replace(/\./g, '')
-//             .replace(',', '.'),
-//     );
+const moneyUnmask = (a: string) => a;
 
 export default function PricesTable() {
-    const [data, setData] = useState<RawPrice[]>([]);
+    const [tableData, setTableData] = useState<Price[]>([
+        {
+            uuid: '1',
+            material: 'Plástico',
+            value: 1.5,
+            point: 10,
+        },
+        {
+            uuid: '2',
+            material: 'Alumíno',
+            value: 5.0,
+            point: 250,
+        },
+    ]);
     const [sortKey, setSortKey] = useState<SortKey>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
     const [openCreateDialog, setOpenCreateDialog] = useState(false);
+    const [value, setValue] = useState('');
+    const [point, setPoint] = useState('');
+    // const { data, setData, post, processing } = useForm<Required<Price>>();
+    const [data, setData] = useState<Price>({
+        uuid: '',
+        material: '',
+        point: 0,
+        value: 0,
+    });
 
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/v1/prices')
-            .then((response) => response.json())
-            .then((data: RawPrice[]) => setData(data))
-            .catch((error) => console.error(error));
-    }, []);
+    // useEffect(() => {
+    //     fetch('http://127.0.0.1:8000/api/v1/prices')
+    //         .then((response) => response.json())
+    //         .then((data: Price[]) => setTableData(data))
+    //         .catch((error) => console.error(error));
+    // }, []);
 
     const toggleSort = (key: SortKey) => {
         if (sortKey === key) {
@@ -54,9 +71,9 @@ export default function PricesTable() {
     };
 
     const sortedData = useMemo(() => {
-        if (!sortKey) return data;
+        if (!sortKey) return tableData;
 
-        return [...data].sort((a, b) => {
+        return [...tableData].sort((a, b) => {
             const aValue = typeof a[sortKey] === 'number' ? a[sortKey] : parseFloat(a[sortKey]);
             const bValue = typeof b[sortKey] === 'number' ? b[sortKey] : parseFloat(b[sortKey]);
 
@@ -66,7 +83,36 @@ export default function PricesTable() {
                 return bValue - aValue;
             }
         });
-    }, [data, sortKey, sortDirection]);
+    }, [tableData, sortKey, sortDirection]);
+
+    const handleValue = (e: ChangeEvent<HTMLInputElement>) => {
+        if (/^-?\d*,?\d*$/.test(e.target.value)) {
+            setValue(e.target.value);
+            const convert = parseFloat(e.target.value.replace(',', '.'));
+            setData({
+                ...data,
+                value: !isNaN(convert) ? convert : 0,
+            });
+        }
+
+        console.log(data);
+    };
+
+    const handlePoint = (e: ChangeEvent<HTMLInputElement>) => {
+        setPoint(e.target.value.replace(/\D/g, ''));
+        const convert = parseInt(e.target.value);
+        setData({
+            ...data,
+            point: !isNaN(convert) ? convert : 0,
+        });
+    };
+
+    const handleSubmit: FormEventHandler = (e) => {
+        console.log(data);
+        e.preventDefault();
+        const t = router.post('/prices', data);
+        console.log(t);
+    };
 
     return (
         <>
@@ -79,23 +125,33 @@ export default function PricesTable() {
                         </DialogHeader>
                         <div className="grid gap-4">
                             <div className="grid gap-3">
-                                <Label htmlFor="name-1">Material</Label>
-                                <Input id="name-1" name="name" />
+                                <Label htmlFor="material">Material</Label>D
+                                <Input
+                                    id="material"
+                                    name="material"
+                                    onChange={(e) => setData({ ...data, material: e.target.value })}
+                                    placeholder="Alumínio"
+                                />
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="name-1">Preço</Label>
-                                <Input id="name-1" name="name" />
+                                <Label htmlFor="">Preço</Label>
+                                <div className="flex">
+                                    <span className="flex h-9 items-center justify-center rounded-md border border-input p-2 select-none">R$</span>
+                                    <Input id="price" name="price" onChange={handleValue} value={value} placeholder="00,000000" />
+                                </div>
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="name-1">Pontos</Label>
-                                <Input id="name-1" name="name" />
+                                <Label htmlFor="point">Pontos</Label>
+                                <Input id="point" name="point" onChange={handlePoint} value={point} placeholder="0" />
                             </div>
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
                                 <Button variant="outline">Cancelar</Button>
                             </DialogClose>
-                            <Button type="submit">Adicionar</Button>
+                            <Button type="submit" onClick={handleSubmit}>
+                                Adicionar
+                            </Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>

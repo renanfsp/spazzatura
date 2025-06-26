@@ -162,7 +162,7 @@ export default function UsersTable({ role }: UsersTableProps) {
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={columns.length} className="h-24 text-center">
-                                        Sem resultados.
+                                        Sem usuários encontrados.
                                     </TableCell>
                                 </TableRow>
                             )}

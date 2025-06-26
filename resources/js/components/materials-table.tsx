@@ -18,7 +18,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 const data: Payment[] = [];
 
-export type Payment = {};
+export type Payment = {
+    d: string;
+};
 
 export const columns: ColumnDef<Payment>[] = [];
 

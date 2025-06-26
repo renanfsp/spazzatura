@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { RawPrice, SortDirection, SortKey } from '@/types';
+import { Price, SortDirection, SortKey } from '@/types';
 import { ArrowUpDown } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -20,14 +20,14 @@ const moneyMask = (a: number) =>
 //     );
 
 export default function PricesTable() {
-    const [data, setData] = useState<RawPrice[]>([]);
+    const [data, setData] = useState<Price[]>([]);
     const [sortKey, setSortKey] = useState<SortKey>(null);
     const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/v1/prices')
             .then((response) => response.json())
-            .then((data: RawPrice[]) => setData(data))
+            .then((data: Price[]) => setData(data))
             .catch((error) => console.error(error));
     }, []);
 
@@ -80,13 +80,21 @@ export default function PricesTable() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {sortedData.map((item) => (
-                                <TableRow key={item.uuid}>
-                                    <TableCell>{item.material}</TableCell>
-                                    <TableCell>{moneyMask(item.value)}</TableCell>
-                                    <TableCell>{item.point}</TableCell>
+                            {sortedData.length > 0 ? (
+                                sortedData.map((item) => (
+                                    <TableRow key={item.uuid}>
+                                        <TableCell>{item.material}</TableCell>
+                                        <TableCell>{moneyMask(item.value)}</TableCell>
+                                        <TableCell>{item.point}</TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={3} className="h-[60vh] text-center">
+                                        Sem cotações disponíveis
+                                    </TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </ScrollArea>
